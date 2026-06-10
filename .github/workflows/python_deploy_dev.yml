@@ -4,6 +4,23 @@ on:
   push:
     tags:
       - 'v*' # Push events to every version tag (eg. v1.0.0)
+  workflow_dispatch:
+    inputs:
+      publish-conda:
+        description: 'Publish Conda package'
+        required: false
+        type: boolean
+        default: true
+      publish-pypi:
+        description: 'Publish PyPI package'
+        required: false
+        type: boolean
+        default: true
+      publish-dev-tag:
+        description: 'Force publish if the version tag is a development version (eg. 3.0.0.dev1)'
+        required: false
+        type: boolean
+        default: false
 
 permissions: {}
 
@@ -27,6 +44,7 @@ jobs:
       conda-channels: '["conda-forge"]'
       publish-repo-names: '["gempy-noremote-conda-dev"]'
       build-experimental: true
+      publish-dev-tag: ${{ github.event.inputs.publish-dev-tag || false }}
     secrets:
       JFROG_ARTIFACTORY_URL: ${{ secrets.JFROG_ARTIFACTORY_URL }}
       JFROG_ARTIFACTORY_TOKEN: ${{ secrets.JFROG_ARTIFACTORY_TOKEN }}
@@ -40,7 +58,7 @@ jobs:
     with:
       package-manager: setuptools
       package-name: gempy
-      version-tag: ${{ github.ref_name }}
+      publish-dev-tag: ${{ github.event.inputs.publish-dev-tag || false }}
       python-version: '3.12'
       virtual-repo-names: '["gempy-pypi-dev"]'
     secrets:

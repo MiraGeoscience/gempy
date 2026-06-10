@@ -4,6 +4,23 @@ on:
   push:
     tags:
       - 'v*' # Push events to every version tag (eg. v1.0.0)
+  workflow_dispatch:
+    inputs:
+      publish-conda:
+        description: 'Publish Conda package'
+        required: false
+        type: boolean
+        default: true
+      publish-pypi:
+        description: 'Publish PyPI package'
+        required: false
+        type: boolean
+        default: true
+      publish-dev-tag:
+        description: 'Force publish if the version tag is a development version (eg. 3.0.0.dev1)'
+        required: false
+        type: boolean
+        default: false
 
 permissions: {}
 
@@ -15,7 +32,7 @@ jobs:
   call-workflow-conda-publish:
     name: Publish development conda package on JFrog Artifactory
     if: github.repository == 'MiraGeoscience/gempy'
-    uses: MiraGeoscience/CI-tools/.github/workflows/reusable-python-publish_rattler_package.yml@v3.6.0-alpha.1
+    uses: MiraGeoscience/CI-tools/.github/workflows/reusable-python-publish_rattler_package.yml@v3.7.0-alpha.1
     permissions:
       id-token: write
       contents: write
@@ -23,26 +40,27 @@ jobs:
       package-name: gempy
       python-version: '3.12'
       recipe-path: conda.recipe/recipe.yaml
-      source-repo-names: '["public-noremote-conda-dev"]'
+      source-repo-names: '["gempy-noremote-conda-dev"]'
       conda-channels: '["conda-forge"]'
-      publish-repo-names: '["public-noremote-conda-dev"]'
+      publish-repo-names: '["gempy-noremote-conda-dev"]'
       build-experimental: true
+      publish-dev-tag: ${{ github.event.inputs.publish-dev-tag || false }}
     secrets:
       JFROG_ARTIFACTORY_URL: ${{ secrets.JFROG_ARTIFACTORY_URL }}
       JFROG_ARTIFACTORY_TOKEN: ${{ secrets.JFROG_ARTIFACTORY_TOKEN }}
   call-workflow-pypi-publish:
     name: Publish development pypi package (JFrog Artifactory)
     if: github.repository == 'MiraGeoscience/gempy'
-    uses: MiraGeoscience/CI-tools/.github/workflows/reusable-python-publish_pypi_package.yml@v3.6.0-alpha.1
+    uses: MiraGeoscience/CI-tools/.github/workflows/reusable-python-publish_pypi_package.yml@v3.7.0-alpha.1
     permissions:
       id-token: write
       contents: write
     with:
       package-manager: setuptools
       package-name: gempy
-      version-tag: ${{ github.ref_name }}
+      publish-dev-tag: ${{ github.event.inputs.publish-dev-tag || false }}
       python-version: '3.12'
-      virtual-repo-names: '["public-pypi-dev"]'
+      virtual-repo-names: '["gempy-pypi-dev"]'
     secrets:
       JFROG_ARTIFACTORY_URL: ${{ secrets.JFROG_ARTIFACTORY_URL }}
       JFROG_ARTIFACTORY_TOKEN: ${{ secrets.JFROG_ARTIFACTORY_TOKEN }}

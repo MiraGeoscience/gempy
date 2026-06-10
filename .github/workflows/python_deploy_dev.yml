@@ -44,7 +44,7 @@ jobs:
       conda-channels: '["conda-forge"]'
       publish-repo-names: '["gempy-noremote-conda-dev"]'
       build-experimental: true
-      publish-dev-tag: ${{ github.event.inputs.publish-dev-tag || false }}
+      publish-dev-tag: ${{ github.event.inputs.publish-dev-tag == 'true' }}
     secrets:
       JFROG_ARTIFACTORY_URL: ${{ secrets.JFROG_ARTIFACTORY_URL }}
       JFROG_ARTIFACTORY_TOKEN: ${{ secrets.JFROG_ARTIFACTORY_TOKEN }}
@@ -58,7 +58,7 @@ jobs:
     with:
       package-manager: setuptools
       package-name: gempy
-      publish-dev-tag: ${{ github.event.inputs.publish-dev-tag || false }}
+      publish-dev-tag: ${{ github.event.inputs.publish-dev-tag == 'true' }}
       python-version: '3.12'
       virtual-repo-names: '["gempy-pypi-dev"]'
     secrets:

@@ -1,17 +1,12 @@
-﻿from typing import Any
-
-from numpy import dtype, ndarray
+﻿import pytest
+from gempy_viewer import GemPyToVista
 
 import gempy as gp
-from gempy.core.data import GeoModel
 from gempy.core.data.enumerators import ExampleModel
 from gempy.optional_dependencies import require_gempy_viewer
 from gempy_engine.core.data.interp_output import InterpOutput
-from gempy_viewer import GemPyToVista
-
-from test.verify_helper import gempy_verify_array
-import pytest
 from test.conftest import TEST_SPEED, TestSpeed
+from test.verify_helper import gempy_verify_array
 
 # ! When importing the model is computed
 
@@ -22,7 +17,7 @@ pytestmark = pytest.mark.skipif(TEST_SPEED.value < TestSpeed.MINUTES.value, reas
 
 
 def _verify_scalar_field(model, name):
-    outputs_centers_: InterpOutput = model.solutions.octrees_output[-1].outputs_centers[0]
+    outputs_centers_: InterpOutput = model.solutions.octrees_output[-1].outputs[0]
     scalar_field = outputs_centers_.exported_fields.scalar_field
     scalar_field = scalar_field[::int(len(scalar_field) / 50)]  # Pick 50 values from the scalar field array
     gempy_verify_array(scalar_field, name)

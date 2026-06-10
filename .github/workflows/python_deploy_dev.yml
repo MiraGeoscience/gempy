@@ -22,6 +22,7 @@ jobs:
     with:
       package-name: gempy
       python-version: '3.12'
+      recipe-path: conda.recipe/recipe.yaml
       source-repo-names: '["public-noremote-conda-dev"]'
       conda-channels: '["conda-forge"]'
       publish-repo-names: '["public-noremote-conda-dev"]'

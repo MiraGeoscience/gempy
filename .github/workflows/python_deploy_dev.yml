@@ -32,7 +32,7 @@ jobs:
   call-workflow-conda-publish:
     name: Publish development conda package on JFrog Artifactory
     if: github.repository == 'MiraGeoscience/gempy'
-    uses: MiraGeoscience/CI-tools/.github/workflows/reusable-python-publish_rattler_package.yml@v3.6.0-alpha.1
+    uses: MiraGeoscience/CI-tools/.github/workflows/reusable-python-publish_rattler_package.yml@v3.7.0-alpha.1
     permissions:
       id-token: write
       contents: write
@@ -51,7 +51,7 @@ jobs:
   call-workflow-pypi-publish:
     name: Publish development pypi package (JFrog Artifactory)
     if: github.repository == 'MiraGeoscience/gempy'
-    uses: MiraGeoscience/CI-tools/.github/workflows/reusable-python-publish_pypi_package.yml@v3.6.0-alpha.1
+    uses: MiraGeoscience/CI-tools/.github/workflows/reusable-python-publish_pypi_package.yml@v3.7.0-alpha.1
     permissions:
       id-token: write
       contents: write

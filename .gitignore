@@ -185,3 +185,6 @@ examples/tutorials/z_other_tutorials/json_io/combination_model_computed.json
 test/test_modules/run_test.py
 
 .junie
+
+/gempy_engine/_version.py
+/_version.txt

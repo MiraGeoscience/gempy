@@ -31,7 +31,7 @@ requirements:
     - setuptools-scm
   run:
     - python >=${{ python_min }}
-    - gempy-engine >=2026.0.2dev0,<2026.1
+    - gempy-engine >=2026.0.1.1a1,<2026.0.3a.dev
     - typing_extensions
 
 tests:
